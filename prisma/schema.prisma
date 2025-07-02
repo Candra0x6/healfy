@@ -1,0 +1,529 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+/// Represents a user account from an OAuth provider
+model Account {
+  id                String   @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?  @db.Text
+  access_token      String?  @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?  @db.Text
+  session_state     String?
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+  @@index([userId])
+}
+
+/// Represents a user session
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+}
+
+/// Represents an email verification token
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+  @@index([expires])
+}
+
+/// Main user model containing core user information
+model User {
+  id              String            @id @default(cuid())
+  name            String?
+  email           String?           @unique
+  emailVerified   DateTime?
+  image           String?
+  role            UserRole          @default(User)
+  accounts        Account[]
+  sessions        Session[]
+  healthAnalysis  HealthAnalysis?
+  medicalData     MedicalData?
+  createdAt       DateTime          @default(now())
+  updatedAt       DateTime          @updatedAt
+  deletedAt       DateTime?
+  Character       Character?
+  checkIns        CheckIn[]
+  streaks         Streak?
+  targetDays      TargetDay[]
+  currentPeriod   CheckInPeriod?
+  UserAchievement UserAchievement[]
+
+  @@index([email])
+  @@index([deletedAt])
+}
+
+/// Represents a refresh token for authentication
+model RefreshToken {
+  id        String   @id @default(cuid())
+  token     String
+  userId    String
+  createdAt DateTime @default(now())
+  expiresAt DateTime
+
+  @@index([userId])
+  @@index([expiresAt])
+}
+
+enum UserRole {
+  User
+  Admin
+}
+
+enum Gender {
+  MALE
+  FEMALE
+  OTHER
+}
+
+enum SmokingStatus {
+  NON_SMOKER
+  FORMER_SMOKER
+  ACTIVE_SMOKER
+}
+
+enum AlcoholConsumption {
+  NEVER
+  OCCASIONAL
+  FREQUENT
+}
+
+enum DietaryPattern {
+  BALANCED
+  VEGETARIAN
+  VEGAN
+  HIGH_PROTEIN
+  HIGH_CARB
+  LOW_FAT
+  KETO
+  GLUTEN_FREE
+  NO_SPECIAL_DIET
+}
+
+enum PhysicalActivity {
+  VERY_RARE
+  RARE
+  MODERATE
+  REGULAR
+}
+
+enum ConditionType {
+  Obesity
+  Asthma
+  Gastritis
+  Migraine
+  Hypertension
+  Cholesterol
+  Anemia
+  Vertigo
+  Gout
+  Diabetes
+  Diarrhea
+  Diabetes_Mellitus
+}
+
+/// Stores comprehensive medical data for a user
+model MedicalData {
+  id           String      @id @default(cuid())
+  createdAt    DateTime    @default(now())
+  updatedAt    DateTime    @updatedAt
+  deletedAt    DateTime?
+  version      Int         @default(1)
+  biometrics   Biometrics  @relation(fields: [biometricsId], references: [id])
+  biometricsId String      @unique
+  lifestyle    Lifestyle   @relation(fields: [lifestyleId], references: [id])
+  lifestyleId  String      @unique
+  conditions   Condition[]
+
+  userId String @unique
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([deletedAt])
+}
+
+/// Stores biometric measurements
+model Biometrics {
+  id                 String       @id @default(cuid())
+  age                Int          @db.SmallInt
+  gender             Gender
+  averageDailyBP     Float
+  heartRate          Float
+  restingHeartRate   Float
+  waistCircumference Float
+  hipCircumference   Float
+  height             Float
+  weight             Float
+  createdAt          DateTime     @default(now())
+  updatedAt          DateTime     @updatedAt
+  medicalData        MedicalData?
+}
+
+/// Records lifestyle information
+model Lifestyle {
+  id                 String             @id @default(cuid())
+  smokingHabit       SmokingStatus
+  alcoholConsumption AlcoholConsumption
+  dietaryPattern     DietaryPattern
+  physicalActivity   PhysicalActivity
+  createdAt          DateTime           @default(now())
+  updatedAt          DateTime           @updatedAt
+  medicalData        MedicalData?
+}
+
+/// Represents a medical condition
+model Condition {
+  id            String        @id @default(cuid())
+  name          ConditionType
+  medicalData   MedicalData   @relation(fields: [medicalDataId], references: [id])
+  medicalDataId String
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+
+  @@index([medicalDataId])
+}
+
+/// Comprehensive health analysis results
+model HealthAnalysis {
+  id                         String                      @id @default(cuid())
+  createdAt                  DateTime                    @default(now())
+  updatedAt                  DateTime                    @updatedAt
+  version                    Int                         @default(1)
+  deletedAt                  DateTime?
+  healthScore                HealthScore                 @relation(fields: [healthScoreId], references: [id], onDelete: Cascade)
+  healthScoreId              String                      @unique
+  potentialConditions        PotentialCondition[]
+  lifestyleModifications     LifestyleModification[]
+  nutritionalRecommendations NutritionalRecommendation[]
+  healthSummeryId            String?                     @unique
+  healthSummery              HealthSummary?              @relation(fields: [healthSummeryId], references: [id])
+  userId                     String                      @unique
+  user                       User                        @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([deletedAt])
+}
+
+/// Health score assessment
+model HealthScore {
+  id               String          @id @default(cuid())
+  score            Float
+  interpretation   Interpretation  @relation(fields: [interpretationId], references: [id], onDelete: Cascade)
+  interpretationId String          @unique
+  bmiAssessment    BMIAssessment   @relation(fields: [bmiAssessmentId], references: [id], onDelete: Cascade)
+  bmiAssessmentId  String          @unique
+  createdAt        DateTime        @default(now())
+  updatedAt        DateTime        @updatedAt
+  healthAnalysis   HealthAnalysis?
+}
+
+/// Interpretation of health score
+model Interpretation {
+  id          String       @id @default(cuid())
+  rating      Float
+  message     String
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+  healthScore HealthScore?
+}
+
+/// BMI assessment details
+model BMIAssessment {
+  id                 String       @id @default(cuid())
+  bmiValue           Float
+  category           String
+  healthImplications String       @db.Text
+  createdAt          DateTime     @default(now())
+  updatedAt          DateTime     @updatedAt
+  healthScore        HealthScore?
+}
+
+/// Potential health conditions identified
+model PotentialCondition {
+  id               String           @id @default(cuid())
+  name             String
+  probability      Float
+  severity         Severity
+  medicalAttention MedicalAttention
+  detailedAnalysis String           @db.Text
+  recommendedTests String[]
+  createdAt        DateTime         @default(now())
+  updatedAt        DateTime         @updatedAt
+
+  healthAnalysis   HealthAnalysis @relation(fields: [healthAnalysisId], references: [id], onDelete: Cascade)
+  healthAnalysisId String
+
+  @@index([healthAnalysisId])
+}
+
+/// Lifestyle modification recommendations
+model LifestyleModification {
+  id               String   @id @default(cuid())
+  activity         String
+  impactFactor     Float
+  targetConditions String[]
+  isActive         Boolean  @default(true)
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  implementationPlan   ImplementationPlan @relation(fields: [implementationPlanId], references: [id], onDelete: Cascade)
+  implementationPlanId String             @unique
+
+  healthAnalysis   HealthAnalysis @relation(fields: [healthAnalysisId], references: [id], onDelete: Cascade)
+  healthAnalysisId String
+  mission          Mission[]
+
+  @@index([healthAnalysisId])
+}
+
+/// Implementation plan for lifestyle modifications
+model ImplementationPlan {
+  id          String   @id @default(cuid())
+  frequency   String
+  duration    String
+  intensity   String
+  precautions String[]
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  lifestyleModification LifestyleModification?
+}
+
+/// Nutritional recommendations
+model NutritionalRecommendation {
+  id             String   @id @default(cuid())
+  food           String
+  benefits       String   @db.Text
+  targetSymptoms String[]
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  servingGuidelines   ServingGuidelines @relation(fields: [servingGuidelinesId], references: [id], onDelete: Cascade)
+  servingGuidelinesId String            @unique
+
+  healthAnalysis   HealthAnalysis @relation(fields: [healthAnalysisId], references: [id], onDelete: Cascade)
+  healthAnalysisId String
+
+  @@index([healthAnalysisId])
+}
+
+/// Serving guidelines for nutritional recommendations
+model ServingGuidelines {
+  id                String   @id @default(cuid())
+  amount            String
+  frequency         String
+  bestTimeToConsume String
+  preparations      String[]
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  nutritionalRecommendation NutritionalRecommendation?
+}
+
+/// Health summary and recommendations
+model HealthSummary {
+  id                      String          @id @default(cuid())
+  overallAssessment       String          @db.Text
+  urgentConcerns          String[]
+  shortTermActions        String[]
+  longTermStrategy        String          @db.Text
+  followUpRecommendations String          @db.Text
+  createdAt               DateTime        @default(now())
+  updatedAt               DateTime        @updatedAt
+  healthAnalysis          HealthAnalysis?
+}
+
+model Mission {
+  id            String   @id @default(cuid())
+  title         String
+  description   String?
+  xpReward      Int      @default(10)
+  requiredCount Int      @default(1) // How many times this needs to be completed
+  currentCount  Int      @default(0) // Current completion count
+  isDone        Boolean  @default(false)
+  isClaimed     Boolean  @default(false)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  // Relations
+  habitId     String
+  habit       LifestyleModification @relation(fields: [habitId], references: [id])
+  characterId String
+  character   Character             @relation(fields: [characterId], references: [id])
+  completions MissionCompletion[]
+}
+
+model Level {
+  id                    String    @id @default(cuid())
+  currentLevel          Int       @default(1)
+  requiredXP            Int       @default(200)
+  currentXP             Int       @default(0)
+  xpToNextLevel         Int
+  percentageToNextLevel Float
+  createdAt             DateTime  @default(now())
+  updatedAt             DateTime  @updatedAt
+  characterId           String    @unique
+  character             Character @relation(fields: [characterId], references: [id])
+}
+
+model Character {
+  id        String   @id @default(cuid())
+  name      String
+  symbol    String // Current character symbol
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  gender    Gender   @default(MALE)
+
+  // Relations
+  level    Level?
+  userId   String           @unique
+  user     User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  missions Mission[]
+  badges   BadgeCharacter[]
+}
+
+model TargetDay {
+  id          String  @id @default(cuid())
+  userId      String
+  user        User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  dayNumber   Int // 1-5
+  reward      String
+  isCompleted Boolean @default(false)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([userId, dayNumber])
+}
+
+model CheckInPeriod {
+  id            String   @id @default(cuid())
+  userId        String   @unique
+  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  startDate     DateTime
+  currentDay    Int      @default(1)
+  completedDays Int      @default(0)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
+
+model CheckIn {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  dayNumber Int // 1-5
+  date      DateTime @default(now())
+  title     String?
+  reward    String // 1-5 scale
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([userId, date])
+}
+
+model Streak {
+  id            String    @id @default(cuid())
+  userId        String    @unique
+  user          User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  currentStreak Int       @default(0)
+  longestStreak Int       @default(0)
+  lastCheckIn   DateTime?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+}
+
+model Achievement {
+  id               String              @id @default(cuid())
+  title            String
+  description      String
+  requirement      Int // Number of missions needed
+  requirementLevel Int                 @default(1)
+  reward           String? // Reward description
+  category         AchievementCategory
+
+  // Relations
+  userAchievements UserAchievement[]
+}
+
+enum AchievementCategory {
+  HABIT
+  LEVEL
+}
+
+model UserAchievement {
+  id                 String   @id @default(cuid())
+  unlockedAt         DateTime @default(now())
+  isClaimed          Boolean  @default(false)
+  isDone             Boolean  @default(false)
+  currentProgress    Int      @default(1)
+  percentageProgress Float
+
+  // Relations
+  userId        String
+  user          User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  achievementId String
+  achievement   Achievement @relation(fields: [achievementId], references: [id])
+
+  @@unique([userId, achievementId])
+}
+
+model MissionCompletion {
+  id          String   @id @default(cuid())
+  completedAt DateTime @default(now())
+
+  // Relations
+  missionId String
+  mission   Mission @relation(fields: [missionId], references: [id])
+
+  @@index([missionId])
+}
+
+model BadgeCharacter {
+  id         String     @id @default(cuid())
+  name       String
+  symbol     String
+  chracterId String
+  character  Character? @relation(fields: [chracterId], references: [id])
+}
+
+enum Severity {
+  low
+  medium
+  high
+}
+
+enum MedicalAttention {
+  monitoring
+  consult
+  immediate
+}
