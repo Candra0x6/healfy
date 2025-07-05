@@ -30,7 +30,7 @@ export default function Navbar({ user }: { user: Session }) {
     >
       <nav className=" flex justify-between w-full items-center py-5 px-10">
         <div className="flex">
-          <GiHealthDecrease className="text-4xl" />
+          <GiHealthDecrease className="text-4xl text-primary" />
         </div>
         {user?.user ? (
           <Button

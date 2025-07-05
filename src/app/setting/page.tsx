@@ -106,12 +106,12 @@ export default function GoogleAccountSettings() {
       >
         <button
           onClick={() => window.history.back()}
-          className="hover:bg-card flex gap-x-2 items-center font-bold py-2 px-5 rounded-xl mb-5 hover:text-primary "
+          className="bg-card flex gap-x-2 items-center font-bold py-2 px-5 rounded-xl mb-5 text-primary shadow-md shadow-foreground/10 hover:shadow-lg transition-shadow duration-300"
         >
           <TbArrowBackUp size={24} />
           Back
         </button>
-        <Card className="shadow-black/10 shadow-2xl">
+        <Card className="shadow-foreground/10 shadow-md">
           <CardHeader className="text-center">
             <CardTitle className="text-2xl font-bold text-white">
               Account Settings
@@ -129,18 +129,18 @@ export default function GoogleAccountSettings() {
             </motion.div>
             <motion.div variants={itemVariants} className="text-center">
               <h2 className="text-xl font-semibold">{session?.user.name}</h2>
-              <p className="text-gray-400">{session?.user.email}</p>
+              <p className="">{session?.user.email}</p>
             </motion.div>
             <motion.div
               variants={itemVariants}
-              className="bg-gray-700 p-4 rounded-lg"
+              className="bg-primary text-white p-4 rounded-lg"
             >
               <h1 className="text-lg font-semibold mb-2">Character Details</h1>
-              <h2 className="text-sm text-gray-400">Name</h2>
+              <h2 className="text-sm">Name</h2>
               <input
                 defaultValue={character?.name}
                 type="text"
-                className="bg-transparent text-foreground text-xl font-bold mb-2"
+                className="bg-transparent text-foreground text-xl font-bold mb-2 text-white"
                 onKeyDown={(e) => {
                   if (e.key === "Enter") {
                     updateCharacterName(e.currentTarget.value);
@@ -150,8 +150,8 @@ export default function GoogleAccountSettings() {
                   }
                 }}
               />
-              <h2 className="text-sm text-gray-400">Badge</h2>
-              <p className="text-sm text-gray-400">{character?.symbol}</p>
+              <h2 className="text-sm ">Badge</h2>
+              <p className="text-sm ">{character?.symbol}</p>
             </motion.div>
           </CardContent>
           <CardFooter>

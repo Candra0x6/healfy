@@ -2,7 +2,6 @@
 
 import { AnimatePresence, motion } from "framer-motion";
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
-import { cn } from "../../../lib/utils";
 import { AchievementsResponse } from "@/app/dashboard/my-missions/page";
 import { useState } from "react";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
@@ -12,6 +11,7 @@ import { Button } from "../ui/button";
 import { BadgeCharacter, UserAchievement } from "@prisma/client";
 import BoxRewardTrigger from "../reward/BoxOpen";
 import toast from "react-hot-toast";
+import { cn } from "@/lib/utils";
 
 function AchivmentPart(props: { data: AchievementsResponse[] | undefined }) {
   const [selectedItem, setSelectedItem] = useState<AchievementsResponse | null>(

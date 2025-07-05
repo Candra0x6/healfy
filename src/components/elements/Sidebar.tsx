@@ -46,7 +46,7 @@ const Sidebar = () => {
       <div className=" h-full flex-col md:flex">
         <nav className="flex-grow">
           <div className="flex w-full justify-center py-4">
-            <GiHealthDecrease className="text-4xl" />
+            <GiHealthDecrease className="text-4xl text-primary" />
           </div>
           <ul className="space-y-4">
             {dashboardMenuItems.map((item, index) => (
