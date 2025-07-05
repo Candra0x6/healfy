@@ -32,7 +32,7 @@ export default function DashboardPage() {
             </CardHeader>
             <CardContent>
               <p className="text-muted-foreground">
-                Here's your personalized health dashboard. Track your progress and manage your habits.
+                Here&#39;s your personalized health dashboard. Track your progress and manage your habits.
               </p>
             </CardContent>
           </Card>

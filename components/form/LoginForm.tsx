@@ -87,18 +87,13 @@ export function LoginForm() {
     <Card className="w-full shadow-lg">
       <CardHeader className="space-y-1">
         <CardTitle className="text-2xl font-bold text-center">Login</CardTitle>
-        <CardDescription className="text-center">Enter your credentials to access your account</CardDescription>
+        <CardDescription className="text-center">
+          Sign in with your Google account to start.
+        </CardDescription>
       </CardHeader>
       <CardContent>
-        <div className="relative my-4">
-          <Separator />
-          <div className="absolute inset-0 flex items-center justify-center">
-            <span className="bg-card px-2 text-xs text-muted-foreground">Or continue with</span>
-          </div>
-        </div>
 
         <Button
-          variant="outline"
           type="button"
           className="w-full"
           onClick={handleGoogleSignIn}
@@ -134,15 +129,8 @@ export function LoginForm() {
           )}
         </Button>
 
-      </CardContent>      <CardFooter className="flex justify-center ">
-        <Button
-          variant="link"
-          className="px-0 text-sm"
-          onClick={() => router.push("/register")}
-        >
-          Don&apos;t have an account? Sign up
-        </Button>
-      </CardFooter>
+      </CardContent>     
+
     </Card>
   )
 }
