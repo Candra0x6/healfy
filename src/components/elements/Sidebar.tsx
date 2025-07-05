@@ -17,11 +17,6 @@ export const dashboardMenuItems = [
     text: "Leaderboard",
     path: "/dashboard/leaderboard",
   },
-  {
-    icon: RiHealthBookFill,
-    text: "Biometrics",
-    path: "/dashboard/my-biometrics",
-  },
 ];
 const Sidebar = () => {
   const { data } = useSession();

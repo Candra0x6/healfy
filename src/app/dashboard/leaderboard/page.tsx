@@ -10,7 +10,7 @@ export type Leaderboard = User & {
 const getLeaderboardItems = cache(() => leaderboardDetails());
 export default async function LeaderboardPage() {
   const leaderBoard: Leaderboard[] | undefined = await getLeaderboardItems();
-
+  console.log(leaderBoard);
   return (
     <>
       <DashboardNav title="Learderboard" />
