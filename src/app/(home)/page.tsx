@@ -5,7 +5,6 @@ import HabitShowcaseCard from "@/components/cards/HabitShowcaseCard";
 import React, { Fragment, useEffect, useState } from "react";
 import FAQCard from "@/components/cards/FaqCard";
 import confetti from "canvas-confetti";
-import FeatureSlideshow from "@/components/slide/FeatureSlideShow";
 // Character images (using string paths instead of imports)
 const characterBored = "/image/character-assets/women/women-2.png";
 const characterHappy = "/image/character-assets/women/women-3.png";
@@ -24,7 +23,7 @@ export default function Home() {
   const { data: session } = useSession();
   const faqs = [
     {
-      question: "What is Healthy?",
+      question: "What is Healfy?",
       answer:
         "Healfy is a web app designed to help you build healthier habits. By analyzing your health data, lifestyle, and medical history, our AI recommends personalized habits to improve your well-being.",
     },
@@ -302,18 +301,7 @@ export default function Home() {
             ))}
           </div>
         </section>
-        <section className="mb-[14rem]">
-          <div className="mb-10">
-            <h1 className="text-4xl font-black text-center">
-              See Healfy in Action! 🎥
-            </h1>
-            <p className="text-center">
-              Watch how easy and fun it is to build healthier habits, level up
-              your character, and achieve your goals!
-            </p>
-          </div>
-          <FeatureSlideshow />
-        </section>
+      
         <section className="space-y-2">
           <div className="mb-10">
             <h1 className="text-4xl font-black text-center">
@@ -331,7 +319,7 @@ export default function Home() {
       </main>
       <footer className="bg-card shadow-md shadow-foreground text-center py-4 mt-10">
         <p className="text-sm text-muted-foreground">
-          © 2024 Healfy. All rights reserved.
+          © 2025 Healfy. All rights reserved.
         </p>
         <p className="text-sm text-muted-foreground">
           Made with ❤️ by{" "}
