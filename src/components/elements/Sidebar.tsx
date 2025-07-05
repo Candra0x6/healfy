@@ -62,10 +62,10 @@ const Sidebar = () => {
                   className={`flex items-center rounded-xl px-4 py-2 ${
                     item.path === pathname
                       ? "bg-primary text-white font-medium"
-                      : ""
+                      : "text-foreground"
                   } hover:bg-primary`}
                 >
-                  <item.icon className="mr-3 h-6 w-6 text-white" />
+                  <item.icon className="mr-3 h-6 w-6 " />
                   <span>{item.text}</span>
                 </a>
               </motion.li>
@@ -73,7 +73,7 @@ const Sidebar = () => {
           </ul>
         </nav>
 
-        <div className="rounded-xl bg-blue-500 p-4 text-white mt-10">
+        <div className="rounded-xl bg-primary p-4 text-white mt-10">
           <p className="text-sm">Logged in as</p>
           <p className="font-semibold">{data?.user?.name}</p>
         </div>

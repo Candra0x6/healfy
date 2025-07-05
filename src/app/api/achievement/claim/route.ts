@@ -1,7 +1,7 @@
-import { errorHandler } from "@/middleware";
-import prisma from "@/src/libs/db";
-import { getAuthSession } from "@/src/libs/oAuth";
-import { ApiResponse } from "@/src/utils/apiResponse";
+import { errorHandler } from "../../../../../middleware";
+import prisma from "@/libs/db";
+import { getAuthSession } from "@/libs/oAuth";
+import { ApiResponse } from "@/utils/apiResponse";
 import { ApiError } from "next/dist/server/api-utils";
 import { NextRequest } from "next/server";
 
@@ -23,16 +23,23 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const userAchievement = await prisma.userAchievement.updateMany({
-      where: {
-        achievementId: body.achivementId,
-        isDone: true,
-        isClaimed: false,
-      },
-      data: {
-        isClaimed: true,
-      },
-    });
+   const achievement = await prisma.userAchievement.findFirst({
+  where: {
+    id: body.achivementId,
+    isClaimed: false,
+  },
+});
+
+if (!achievement) {
+  throw new Error("Achievement not found or already claimed.");
+}
+
+const userAchievement = await prisma.userAchievement.update({
+  where: { id: achievement.id, isClaimed: false }, 
+  data: {
+    isClaimed: true,
+  },
+});
     return ApiResponse.success(
       {
         message: "Achievement claimed successfully",

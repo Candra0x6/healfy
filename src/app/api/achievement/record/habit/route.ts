@@ -1,7 +1,7 @@
-import { errorHandler } from "@/middleware";
-import prisma from "@/src/libs/db";
-import { getAuthSession } from "@/src/libs/oAuth";
-import { ApiResponse } from "@/src/utils/apiResponse";
+import { errorHandler } from "../../../../../../middleware";
+import prisma from "@/libs/db";
+import { getAuthSession } from "@/libs/oAuth";
+import { ApiResponse } from "@/utils/apiResponse";
 import { ApiError } from "next/dist/server/api-utils";
 
 export async function PUT() {

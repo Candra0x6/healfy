@@ -2,8 +2,8 @@
 
 import { AnimatePresence, motion } from "framer-motion";
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
-import { cn } from "@/lib/utils";
-import { AchievementsResponse } from "@/src/app/dashboard/my-missions/page";
+import { cn } from "../../../lib/utils";
+import { AchievementsResponse } from "@/app/dashboard/my-missions/page";
 import { useState } from "react";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import { Progress } from "../ui/progress";
@@ -116,7 +116,7 @@ function AchivmentPart(props: { data: AchievementsResponse[] | undefined }) {
   return (
     <Card className="border-0 bg-card backdrop-blur-xl">
       <CardHeader>
-        <CardTitle className="text-2xl font-bold text-white">
+        <CardTitle className="text-2xl font-bold ">
           Achievements
         </CardTitle>
       </CardHeader>
@@ -134,15 +134,15 @@ function AchivmentPart(props: { data: AchievementsResponse[] | undefined }) {
               className={cn(
                 "flex aspect-square items-center justify-center rounded-lg text-2xl  cursor-pointer",
                 item.currentProgress === item.achievement.requirement
-                  ? "bg-gradient-to-br from-primary/40 to-cyan-700/40 text-white"
-                  : "bg-gray-700/20 text-gray-600"
+                  ? "bg-gradient-to-br from-primary/40 to-amber-400/40 text-white"
+                  : "bg-gray-300/20 text-gray-600"
               )}
             >
               <Popover>
                 <PopoverTrigger className="w-full aspect-square">
                   <h1>{item.achievement.reward}</h1>
                 </PopoverTrigger>
-                <PopoverContent className="bg-slate-900/30 backdrop-blur-xl shadow-black/10 shadow-xl rounded-xl">
+                <PopoverContent className="bg-slate-200/30 backdrop-blur-xl shadow-foreground/20 shadow-xl rounded-xl">
                   <AnimatePresence>
                     {selectedItem && (
                       <DetailsCard
@@ -203,7 +203,7 @@ const DetailsCard = ({
   >;
 }) => {
   const [isClaimed, setIsClaimed] = useState(item.isClaimed);
-
+  console.log(item)
   return (
     <motion.div
       variants={cardVariants}
@@ -215,10 +215,11 @@ const DetailsCard = ({
       <h3 className="mb-2 text-xl font-bold">{item.achievement.title}</h3>
       <p className="mb-4 ">{item.achievement.description}</p>
       <div className="flex w-full justify-center relative items-center">
-        <h1 className="absolute text-sm text-white z-10">
+        <h1 className="absolute text-sm text-foreground z-10">
           {item.currentProgress} / {item.achievement.requirement}
         </h1>
         <Progress
+        className="bg-gray-300"
           value={(item.currentProgress / item.achievement.requirement) * 100}
         />
       </div>
@@ -232,7 +233,7 @@ const DetailsCard = ({
             onClick={async () => {
               try {
                 await handleClaim({
-                  achivementId: item.achievement.id,
+                  achivementId: item.id,
                   rewardName: item.achievement.title,
                   reward: item.achievement.reward as string,
                 });
@@ -242,7 +243,7 @@ const DetailsCard = ({
               }
             }}
             disabled={isClaimed}
-            className={`mt-4 w-full ${isClaimed ? "opacity-50" : ""}`}
+            className={`mt-4 w-full ${isClaimed ? "opacity-30" : "bg-white"}`}
           >
             {isClaimed ? "Already Claimed" : "Claim"} {item.achievement.reward}
           </RainbowButton>
@@ -250,7 +251,7 @@ const DetailsCard = ({
       ) : (
         <Button
           disabled={true}
-          className="mt-4 w-full bg-black opacity-40 hover:bg-black"
+          className="mt-4 w-full bg-primary opacity-40 "
         >
           Claim {item.achievement.reward}
         </Button>

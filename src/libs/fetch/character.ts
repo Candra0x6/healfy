@@ -5,13 +5,22 @@ import { getAuthSession } from "../oAuth";
 export async function characterDetails() {
   try {
     const session = await getAuthSession();
-    const character = await prisma.character.findUnique({
+    console.log(session)
+    const character = await prisma.user.findUnique({
       where: {
-        id: session?.user.characterId,
+        id: session?.user.id,
       },
       include: {
-        level: true,
+        Character : {
+          where: {
+            userId : session?.user.id,
+          },
+          include: {
+            level: true
+          }
+        }
       },
+
     });
 
     return character;
@@ -24,15 +33,20 @@ export async function characterDetails() {
 export async function badgeDetails() {
   try {
     const session = await getAuthSession();
-    const badges = await prisma.badgeCharacter.findMany({
+    const badges = await prisma.user.findUnique({
       where: {
-        chracterId: session?.user.characterId,
-        character: {
-          userId: session?.user.id,
-        },
+        id : session?.user.id,
+
       },
       include: {
-        character: true,
+        Character: {
+          where: {
+            userId: session?.user.id,
+          },
+          include: {
+            badges: true
+          },
+        },
       },
     });
 

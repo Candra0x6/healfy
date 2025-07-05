@@ -1,5 +1,5 @@
-import NavbarDashboardMobile from "@/src/components/elements/NavbarDashboardMobile";
-import Sidebar from "@/src/components/elements/Sidebar";
+import NavbarDashboardMobile from "@/components/elements/NavbarDashboardMobile";
+import Sidebar from "@/components/elements/Sidebar";
 import React from "react";
 
 export default async function DashboardLayout({
@@ -8,7 +8,7 @@ export default async function DashboardLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="max-w-screen-xl mx-auto w-full flex gap-x-10 overflow-hidden">
+    <div className="max-w-5xl mx-auto w-full flex gap-x-10 overflow-hidden">
       <aside className="md:w-[20%] md:flex md:flex-col hidden h-full ">
         <Sidebar />
       </aside>

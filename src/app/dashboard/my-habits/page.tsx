@@ -1,9 +1,9 @@
-import HabitCard from "@/src/components/cards/HabitsCard";
-import DashboardNav from "@/src/components/elements/DashboardNav";
-import { lifestyleAIResponse } from "@/src/types/genrateResponse";
+import HabitCard from "@/components/cards/HabitsCard";
+import DashboardNav from "@/components/elements/DashboardNav";
+import { lifestyleAIResponse } from "@/types/genrateResponse";
 import { Metadata } from "next";
 import { cache, Suspense } from "react";
-import detailLifestyle from "@/src/libs/fetch/lifestyle";
+import detailLifestyle from "@/libs/fetch/lifestyle";
 
 export const metadata: Metadata = {
   title: "My Habits - Healthy",

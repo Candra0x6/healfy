@@ -71,7 +71,7 @@ export default function DailyCheckin({
                   "relative rounded-lg p-4",
                   day.isCompleted
                     ? "bg-green-500/20 text-green-400"
-                    : "bg-gray-700/20 text-gray-400"
+                    : "bg-gray-300/20 text-gray-400"
                 )}
               >
                 <motion.div

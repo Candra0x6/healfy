@@ -1,8 +1,8 @@
 import CharacterStats, {
   CharacterLevel,
-} from "@/src/components/character/CharacterStats";
-import DashboardNav from "@/src/components/elements/DashboardNav";
-import { badgeDetails, characterDetails } from "@/src/libs/fetch/character";
+} from "@/components/character/CharacterStats";
+import DashboardNav from "@/components/elements/DashboardNav";
+import { badgeDetails, characterDetails } from "@/libs/fetch/character";
 import { Metadata } from "next";
 import { cache } from "react";
 export const metadata: Metadata = {
@@ -16,6 +16,7 @@ const getCharacterDetailsItems = cache(() => characterDetails());
 
 export default async function PlayfulCharacterPage() {
   const character = await getCharacterDetailsItems();
+  console.log(character)
   const badges = await getCharacterBadgeItems();
   return (
     <>
@@ -23,8 +24,8 @@ export default async function PlayfulCharacterPage() {
 
       <div className="max-w-6xl w-full overflow-hidden">
         <CharacterStats
-          badges={badges}
-          character={character as CharacterLevel}
+          badges={badges?.Character?.badges}
+          character={character?.Character as CharacterLevel}
         />
       </div>
     </>

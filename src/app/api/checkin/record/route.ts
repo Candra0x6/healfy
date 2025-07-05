@@ -1,10 +1,10 @@
 import { NextResponse } from "next/server";
-import prisma from "@/src/libs/db";
-import { ApiResponse } from "@/src/utils/apiResponse";
-import { errorHandler } from "@/middleware";
+import prisma from "@/libs/db";
+import { ApiResponse } from "@/utils/apiResponse";
+import { errorHandler } from "../../../../../middleware";
 import { ApiError } from "next/dist/server/api-utils";
-import { isNewPeriodNeeded } from "@/src/utils/isPerioedNeeded";
-import { getAuthSession } from "@/src/libs/oAuth";
+import { isNewPeriodNeeded } from "@/utils/isPerioedNeeded";
+import { getAuthSession } from "@/libs/oAuth";
 
 export async function POST() {
   try {

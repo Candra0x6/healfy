@@ -1,13 +1,12 @@
-import { errorHandler } from "@/middleware";
-import prisma from "@/src/libs/db";
-import { ApiResponse } from "@/src/utils/apiResponse";
+import { errorHandler } from "../../../../../middleware";
+import prisma from "@/libs/db";
+import { ApiResponse } from "@/utils/apiResponse";
 import { ApiError } from "next/dist/server/api-utils";
 import { NextRequest } from "next/server";
 
 export async function POST(request: NextRequest) {
   try {
-    const body: { userId: string } = await request.json();
-    console.log(body);
+    const body: { userId: string, name : string } = await request.json();
     if (!body.userId) {
       return ApiResponse.error({ message: "Unauthorized" }, 401);
     }
@@ -31,7 +30,7 @@ export async function POST(request: NextRequest) {
 
     const character = await prisma.character.create({
       data: {
-        name: randomName,
+        name: body.name || randomName,
         symbol: "👤",
         userId: body.userId,
         level: {

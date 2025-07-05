@@ -95,14 +95,14 @@ export default function CharacterStats({
     CHARACTER_ASSETS[character.gender]?.[character.level.currentLevel];
 
   return (
-    <div className="grid md:grid-cols-2 gap-5">
-      <div className="bg-card rounded-xl p-8 h-fit flex items-center justify-center">
+    <div className="grid md:grid-cols-2 gap-5 pb-5">
+      <div className="bg-card rounded-xl p-8 h-fit flex items-center shadow-md shadow-foreground/10 justify-center">
         <div className="w-full h-full flex flex-col items-center relative">
           <h1 className="text-3xl">{badgeSelected}</h1>
           <div className="flex relative">
             <div className="absolute inset-0 flex items-center justify-center z-0">
               <div
-                className="w-1/2 h-1/2 bg-gradient-to-tr from-blue-500 to-teal-500 rounded-full blur-3xl"
+                className="w-1/2 h-1/2 bg-gradient-to-tr from-primary to-primary rounded-full blur-3xl"
                 style={{
                   animationDelay: "0.5s",
                   opacity: (character?.level?.currentLevel ?? 0) * 0.5,
@@ -117,8 +117,8 @@ export default function CharacterStats({
                 } ${character?.gender.toLowerCase()} character`}
                 className="z-10"
                 loading="lazy"
-                width={150}
-                height={150}
+                width={400}
+                height={400}
               />
             )}
           </div>
@@ -136,7 +136,7 @@ export default function CharacterStats({
         </div>
       </div>
 
-      <div className="bg-card rounded-xl p-8">
+      <div className="bg-card rounded-xl p-8 shadow-md shadow-foreground/10">
         <motion.div
           variants={containerVariants}
           initial="hidden"
@@ -167,7 +167,7 @@ export default function CharacterStats({
                       className={cn(
                         "flex items-center justify-center rounded-lg p-2 aspect-square lg:text-2xl  text-xl cursor-pointer",
                         badgeSelected === badge.symbol
-                          ? "bg-gradient-to-br from-primary/40 to-cyan-700/40 text-white"
+                          ? "bg-gradient-to-br from-primary/80 to-orange-700/80 text-white"
                           : "bg-gray-700/20 text-gray-600"
                       )}
                       onClick={() => updateUseBadge(badge.name, badge.symbol)}

@@ -1,5 +1,5 @@
-import BuiometricsForm from "@/src/components/biometrics/BiometricsForm";
-import DashboardNav from "@/src/components/elements/DashboardNav";
+import BuiometricsForm from "@/components/biometrics/BiometricsForm";
+import DashboardNav from "@/components/elements/DashboardNav";
 import { headers } from "next/headers";
 import React from "react";
 

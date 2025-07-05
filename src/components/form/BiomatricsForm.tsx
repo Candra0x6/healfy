@@ -23,9 +23,9 @@ import { Input } from "../ui/input";
 import {
   BiometricsPayload,
   biometricsSchema,
-} from "@/src/libs/validators/biometricsSchema";
+} from "@/libs/validators/biometricsSchema";
 import { useForm } from "react-hook-form";
-import { useUserMedicalStore } from "@/src/store/user-medical-store";
+import { useUserMedicalStore } from "@/store/user-medical-store";
 import { motion } from "framer-motion";
 import { Slider } from "../ui/slider";
 import { Heart, Ruler, Weight } from "lucide-react";
@@ -117,7 +117,7 @@ export const BiomatricsForm: React.FC<BiometricsFormProps> = (props) => {
               name="age"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="text-lg font-semibold">Age</FormLabel>
+                  <FormLabel className="text-lg font-semibold text-foreground">Age</FormLabel>
                   <FormControl>
                     <Input
                       type="number"

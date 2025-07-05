@@ -1,9 +1,9 @@
-import DashboardNav from "@/src/components/elements/DashboardNav";
+import DashboardNav from "@/components/elements/DashboardNav";
 import { User, Character, Level } from "@prisma/client";
 import { cache } from "react";
-import { leaderboardDetails } from "@/src/libs/fetch/profile";
+import { leaderboardDetails } from "@/libs/fetch/profile";
 import Link from "next/link";
-import PlayerProfile from "@/src/components/character/PlayerProfile";
+import PlayerProfile from "@/components/character/PlayerProfile";
 export type Leaderboard = User & {
   Character: (Character & { level: Level | null }) | null;
 };

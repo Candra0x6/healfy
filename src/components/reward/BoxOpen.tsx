@@ -155,7 +155,7 @@ function RewardReveal({ data, onClick }: RewardRevealProps) {
         {data.reward}{" "}
       </motion.h1>
       <motion.h2
-        className="text-xl font-bold text-white text-center"
+        className="text-xl font-bold text-foreground text-center"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 0.5 }}

@@ -11,8 +11,8 @@ const poppins = Poppins({
 });
 
 export const metadata: Metadata = {
-  title: "Healty",
-  description: "Healty App",
+  title: "Healfy",
+  description: "Healfy App",
 };
 
 export default async function RootLayout({
@@ -22,7 +22,7 @@ export default async function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${poppins.variable} antialiased  `}>
+      <body className={`${poppins.variable} antialiased   `}>
         <ClientProvider>{children}</ClientProvider>
         <Toaster />
       </body>

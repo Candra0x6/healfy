@@ -23,9 +23,9 @@ import {
 import {
   LifestylePayload,
   lifestyleSchema,
-} from "@/src/libs/validators/lifestyleSchema";
+} from "@/libs/validators/lifestyleSchema";
 import { Button } from "../ui/button";
-import { useUserMedicalStore } from "@/src/store/user-medical-store";
+import { useUserMedicalStore } from "@/store/user-medical-store";
 
 type LifestyleFormProps = {
   handleContinue?: () => void;
@@ -126,7 +126,7 @@ export const LifestyleForm: React.FC<LifestyleFormProps> = (props) => {
                       <SelectTrigger className="w-full">
                         <SelectValue
                           placeholder={value.label}
-                          className="w-full"
+                          className="w-full placeholder:text-black text-black"
                         />
                       </SelectTrigger>
                     </FormControl>
@@ -135,7 +135,7 @@ export const LifestyleForm: React.FC<LifestyleFormProps> = (props) => {
                       <SelectGroup>
                         <SelectLabel>{value.label}</SelectLabel>
                         {value.options.map((item, i) => (
-                          <SelectItem key={i} value={item.value}>
+                          <SelectItem key={i} value={item.value} className="text-foreground">
                             {item.id}
                           </SelectItem>
                         ))}

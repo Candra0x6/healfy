@@ -1,7 +1,7 @@
-import { errorHandler } from "@/middleware";
-import prisma from "@/src/libs/db";
-import { authOptions } from "@/src/libs/oAuth";
-import { ApiResponse } from "@/src/utils/apiResponse";
+import { errorHandler } from "../../../../../middleware";
+import prisma from "@/libs/db";
+import { authOptions } from "@/libs/oAuth";
+import { ApiResponse } from "@/utils/apiResponse";
 import { randomInt } from "crypto";
 import { getServerSession } from "next-auth";
 import { ApiError } from "next/dist/server/api-utils";

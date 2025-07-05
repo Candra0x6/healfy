@@ -1,8 +1,8 @@
-import prisma from "@/src/libs/db";
-import { ApiResponse } from "@/src/utils/apiResponse";
-import { errorHandler } from "@/middleware";
+import prisma from "@/libs/db";
+import { ApiResponse } from "@/utils/apiResponse";
+import { errorHandler } from "../../../../../middleware";
 import { ApiError } from "next/dist/server/api-utils";
-import { getAuthSession } from "@/src/libs/oAuth";
+import { getAuthSession } from "@/libs/oAuth";
 
 const streakDays = [
   { day: 1, reward: "🙂" },

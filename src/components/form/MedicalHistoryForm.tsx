@@ -15,7 +15,7 @@ import {
 } from "../ui/form";
 import { Label } from "../ui/label";
 import { useState } from "react";
-import { useUserMedicalStore } from "@/src/store/user-medical-store";
+import { useUserMedicalStore } from "@/store/user-medical-store";
 
 // const createCharacter = async (data: {
 //   name: string;
@@ -128,7 +128,7 @@ export const MedicalHistoryFormCheckbox: React.FC<MedicalHistoryFormProps> = (
                       exit={{ opacity: 0, y: -20 }}
                       transition={{ duration: 0.3, delay: index * 0.1 }}
                     >
-                      <FormItem className="flex py-2 px-4 rounded-lg border border-card">
+                      <FormItem className="flex py-2 px-4 rounded-lg border border-primary">
                         <div className="flex items-center space-x-2 w-full">
                           <FormControl>
                             <Checkbox

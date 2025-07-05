@@ -4,10 +4,11 @@ import { motion } from "framer-motion";
 import { Card, CardContent } from "../ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import Image from "next/image";
-import { Leaderboard } from "@/src/app/dashboard/leaderboard/page";
-import GoldMedal from "@/public/icon/medal/gold-medal.png";
-import SilverMedal from "@/public/icon/medal/silver-medal.png";
-import BronzeMedal from "@/public/icon/medal/bronze-medal.png";
+import { Leaderboard } from "@/app/dashboard/leaderboard/page";
+// Medal images (using string paths instead of imports)
+const GoldMedal = "/icon/medal/gold-medal.png";
+const SilverMedal = "/icon/medal/silver-medal.png";
+const BronzeMedal = "/icon/medal/bronze-medal.png";
 
 function PlayerProfile({
   data,
@@ -20,7 +21,7 @@ function PlayerProfile({
 
   return (
     <MotionCard
-      className="bg-card"
+      className="bg-card shadow-md shadow-foreground/10 rounded-lg hover:shadow-lg transition-shadow duration-300"
       whileHover={{ scale: 1.02, y: -5 }}
       transition={{ type: "spring", stiffness: 400, damping: 10 }}
     >
@@ -37,6 +38,8 @@ function PlayerProfile({
           {index === 0 && (
             <Image
               src={GoldMedal}
+              width={40}
+              height={40}
               alt="Gold Medal"
               className="aspect-square w-10 self-end ml-auto"
             />
@@ -44,6 +47,9 @@ function PlayerProfile({
           {index === 1 && (
             <Image
               src={SilverMedal}
+              
+              width={40}
+              height={40}
               alt="Silver Medal"
               className="aspect-square w-10 self-end ml-auto"
             />
@@ -51,6 +57,9 @@ function PlayerProfile({
           {index === 2 && (
             <Image
               src={BronzeMedal}
+              
+              width={40}
+              height={40}
               alt="Bronze Medal"
               className="aspect-square w-10 self-end ml-auto"
             />

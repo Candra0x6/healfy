@@ -28,7 +28,7 @@ model Account {
   createdAt         DateTime @default(now())
   updatedAt         DateTime @updatedAt
 
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
 
   @@unique([provider, providerAccountId])
   @@index([userId])
@@ -42,7 +42,7 @@ model Session {
   expires      DateTime
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
-  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
 
   @@index([userId])
 }
@@ -63,6 +63,7 @@ model User {
   name            String?
   email           String?           @unique
   emailVerified   DateTime?
+  hashedPassword   String?
   image           String?
   role            UserRole          @default(User)
   accounts        Account[]
@@ -159,14 +160,14 @@ model MedicalData {
   updatedAt    DateTime    @updatedAt
   deletedAt    DateTime?
   version      Int         @default(1)
-  biometrics   Biometrics  @relation(fields: [biometricsId], references: [id])
+  biometrics   Biometrics  @relation(fields: [biometricsId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   biometricsId String      @unique
-  lifestyle    Lifestyle   @relation(fields: [lifestyleId], references: [id])
+  lifestyle    Lifestyle   @relation(fields: [lifestyleId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   lifestyleId  String      @unique
   conditions   Condition[]
 
   userId String @unique
-  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
 
   @@index([userId])
   @@index([deletedAt])
@@ -205,7 +206,7 @@ model Lifestyle {
 model Condition {
   id            String        @id @default(cuid())
   name          ConditionType
-  medicalData   MedicalData   @relation(fields: [medicalDataId], references: [id])
+  medicalData   MedicalData   @relation(fields: [medicalDataId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   medicalDataId String
   createdAt     DateTime      @default(now())
   updatedAt     DateTime      @updatedAt
@@ -220,15 +221,15 @@ model HealthAnalysis {
   updatedAt                  DateTime                    @updatedAt
   version                    Int                         @default(1)
   deletedAt                  DateTime?
-  healthScore                HealthScore                 @relation(fields: [healthScoreId], references: [id], onDelete: Cascade)
+  healthScore                HealthScore                 @relation(fields: [healthScoreId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   healthScoreId              String                      @unique
   potentialConditions        PotentialCondition[]
   lifestyleModifications     LifestyleModification[]
   nutritionalRecommendations NutritionalRecommendation[]
   healthSummeryId            String?                     @unique
-  healthSummery              HealthSummary?              @relation(fields: [healthSummeryId], references: [id])
+  healthSummery              HealthSummary?              @relation(fields: [healthSummeryId], references: [id], onDelete: SetNull, onUpdate: Cascade)
   userId                     String                      @unique
-  user                       User                        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user                       User                        @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
 
   @@index([userId])
   @@index([deletedAt])
@@ -238,9 +239,9 @@ model HealthAnalysis {
 model HealthScore {
   id               String          @id @default(cuid())
   score            Float
-  interpretation   Interpretation  @relation(fields: [interpretationId], references: [id], onDelete: Cascade)
+  interpretation   Interpretation  @relation(fields: [interpretationId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   interpretationId String          @unique
-  bmiAssessment    BMIAssessment   @relation(fields: [bmiAssessmentId], references: [id], onDelete: Cascade)
+  bmiAssessment    BMIAssessment   @relation(fields: [bmiAssessmentId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   bmiAssessmentId  String          @unique
   createdAt        DateTime        @default(now())
   updatedAt        DateTime        @updatedAt
@@ -280,7 +281,7 @@ model PotentialCondition {
   createdAt        DateTime         @default(now())
   updatedAt        DateTime         @updatedAt
 
-  healthAnalysis   HealthAnalysis @relation(fields: [healthAnalysisId], references: [id], onDelete: Cascade)
+  healthAnalysis   HealthAnalysis @relation(fields: [healthAnalysisId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   healthAnalysisId String
 
   @@index([healthAnalysisId])
@@ -296,10 +297,10 @@ model LifestyleModification {
   createdAt        DateTime @default(now())
   updatedAt        DateTime @updatedAt
 
-  implementationPlan   ImplementationPlan @relation(fields: [implementationPlanId], references: [id], onDelete: Cascade)
+  implementationPlan   ImplementationPlan @relation(fields: [implementationPlanId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   implementationPlanId String             @unique
 
-  healthAnalysis   HealthAnalysis @relation(fields: [healthAnalysisId], references: [id], onDelete: Cascade)
+  healthAnalysis   HealthAnalysis @relation(fields: [healthAnalysisId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   healthAnalysisId String
   mission          Mission[]
 
@@ -328,10 +329,10 @@ model NutritionalRecommendation {
   createdAt      DateTime @default(now())
   updatedAt      DateTime @updatedAt
 
-  servingGuidelines   ServingGuidelines @relation(fields: [servingGuidelinesId], references: [id], onDelete: Cascade)
+  servingGuidelines   ServingGuidelines @relation(fields: [servingGuidelinesId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   servingGuidelinesId String            @unique
 
-  healthAnalysis   HealthAnalysis @relation(fields: [healthAnalysisId], references: [id], onDelete: Cascade)
+  healthAnalysis   HealthAnalysis @relation(fields: [healthAnalysisId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   healthAnalysisId String
 
   @@index([healthAnalysisId])
@@ -377,9 +378,9 @@ model Mission {
 
   // Relations
   habitId     String
-  habit       LifestyleModification @relation(fields: [habitId], references: [id])
+  habit       LifestyleModification @relation(fields: [habitId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   characterId String
-  character   Character             @relation(fields: [characterId], references: [id])
+  character   Character             @relation(fields: [characterId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   completions MissionCompletion[]
 }
 
@@ -393,7 +394,7 @@ model Level {
   createdAt             DateTime  @default(now())
   updatedAt             DateTime  @updatedAt
   characterId           String    @unique
-  character             Character @relation(fields: [characterId], references: [id])
+  character             Character @relation(fields: [characterId], references: [id], onDelete: Cascade, onUpdate: Cascade)
 }
 
 model Character {
@@ -407,7 +408,7 @@ model Character {
   // Relations
   level    Level?
   userId   String           @unique
-  user     User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user     User             @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   missions Mission[]
   badges   BadgeCharacter[]
 }
@@ -415,7 +416,7 @@ model Character {
 model TargetDay {
   id          String  @id @default(cuid())
   userId      String
-  user        User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user        User    @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   dayNumber   Int // 1-5
   reward      String
   isCompleted Boolean @default(false)
@@ -429,7 +430,7 @@ model TargetDay {
 model CheckInPeriod {
   id            String   @id @default(cuid())
   userId        String   @unique
-  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   startDate     DateTime
   currentDay    Int      @default(1)
   completedDays Int      @default(0)
@@ -440,7 +441,7 @@ model CheckInPeriod {
 model CheckIn {
   id        String   @id @default(cuid())
   userId    String
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   dayNumber Int // 1-5
   date      DateTime @default(now())
   title     String?
@@ -454,7 +455,7 @@ model CheckIn {
 model Streak {
   id            String    @id @default(cuid())
   userId        String    @unique
-  user          User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user          User      @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   currentStreak Int       @default(0)
   longestStreak Int       @default(0)
   lastCheckIn   DateTime?
@@ -490,9 +491,9 @@ model UserAchievement {
 
   // Relations
   userId        String
-  user          User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user          User        @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   achievementId String
-  achievement   Achievement @relation(fields: [achievementId], references: [id])
+  achievement   Achievement @relation(fields: [achievementId], references: [id], onDelete: Cascade, onUpdate: Cascade)
 
   @@unique([userId, achievementId])
 }
@@ -503,7 +504,7 @@ model MissionCompletion {
 
   // Relations
   missionId String
-  mission   Mission @relation(fields: [missionId], references: [id])
+  mission   Mission @relation(fields: [missionId], references: [id], onDelete: Cascade, onUpdate: Cascade)
 
   @@index([missionId])
 }
@@ -513,7 +514,7 @@ model BadgeCharacter {
   name       String
   symbol     String
   chracterId String
-  character  Character? @relation(fields: [chracterId], references: [id])
+  character  Character? @relation(fields: [chracterId], references: [id], onDelete: Cascade, onUpdate: Cascade)
 }
 
 enum Severity {

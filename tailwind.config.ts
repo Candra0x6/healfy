@@ -4,11 +4,16 @@ export default {
   darkMode: ["class"],
   content: [
     "./pages/**/*.{js,ts,jsx,tsx,mdx}",
+    "./components/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
     extend: {
+      fontFamily: {
+        'poppins': ['var(--font-poppins)', 'Arial', 'Helvetica', 'sans-serif'],
+        'sans': ['var(--font-poppins)', 'Arial', 'Helvetica', 'sans-serif'],
+      },
       animation: {
         "slide-down": "slide-down 300ms cubic-bezier(0.87, 0, 0.13, 1)",
         "slide-up": "slide-up 300ms cubic-bezier(0.87, 0, 0.13, 1)",

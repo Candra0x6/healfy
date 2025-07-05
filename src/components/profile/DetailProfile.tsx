@@ -4,7 +4,7 @@ import * as React from "react";
 import { motion } from "framer-motion";
 
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
-import { UserDetails } from "@/src/app/(profile)/player/[playerId]/page";
+import { UserDetails } from "@/app/(profile)/player/[playerId]/page";
 import { cn } from "@/lib/utils";
 
 const DetailProfile: React.FunctionComponent<{ data: UserDetails }> = (
@@ -15,7 +15,7 @@ const DetailProfile: React.FunctionComponent<{ data: UserDetails }> = (
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="max-w-2xl mx-auto space-y-8 bg-card rounded-xl p-8"
+        className="max-w-2xl mx-auto space-y-8 bg-card rounded-xl p-8 shadow-md shadow-foreground/10"
       >
         {/* Profile */}
         <motion.div
@@ -39,7 +39,7 @@ const DetailProfile: React.FunctionComponent<{ data: UserDetails }> = (
                     initial={{ opacity: 0, x: -20 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ delay: index * 0.1 }}
-                    className="text-sm bg-gray-800 rounded-full px-3 py-1"
+                    className="text-sm  bg-primary/80 text-white rounded-full px-3 py-1"
                   >
                     {habit.activity}
                   </motion.span>
@@ -50,37 +50,37 @@ const DetailProfile: React.FunctionComponent<{ data: UserDetails }> = (
         </motion.div>
 
         {/* Stats */}
-        <div className="grid grid-cols-3 gap-4 p-6 rounded-xl  bg-gradient-to-br from-gray-800/80 to-gray-950/20">
+        <div className="grid grid-cols-3 gap-4 p-6 rounded-xl  bg-gradient-to-br from-orange-400/80 to-primary">
           <div className="flex flex-col items-center">
-            <span className="text-2xl font-semibold">
+            <span className="text-2xl font-semibold text-white">
               {props.data?.Character?.level?.currentLevel}
             </span>
-            <span className="text-sm text-gray-400">Level</span>
+            <span className="text-sm text-white">Level</span>
           </div>
           <div className="flex flex-col items-center">
-            <span className="text-2xl font-semibold">
+            <span className="text-2xl font-semibold text-white">
               {props.data?.Character?.level?.currentXP}
             </span>
-            <span className="text-sm text-gray-400">XP</span>
+            <span className="text-sm text-white">XP</span>
           </div>
           <div className="flex flex-col items-center">
-            <span className="text-2xl font-semibold">
+            <span className="text-2xl font-semibold text-white">
               {props.data?.Character?.symbol}
             </span>
-            <span className="text-sm text-gray-400">Badge</span>
+            <span className="text-sm text-white">Badge</span>
           </div>
         </div>
 
         {/* Achievements */}
         <h1 className="text-2xl font-semibold">Badge</h1>
-        <div className="flex gap-2 overflow-x-auto pb-2">
+        <div className="flex gap-2 pb-2">
           {props.data?.UserAchievement.map((achievement) => (
             <motion.div
               key={achievement.id}
               whileHover={{ scale: 1.1 }}
               className={cn(
                 "flex aspect-square items-center justify-center rounded-lg text-2xl p-5 cursor-pointer",
-                "bg-gradient-to-br from-primary/40 to-cyan-700/40 text-white"
+                "bg-gradient-to-br from-primary/80 to-orange-500/80 text-white"
               )}
             >
               {achievement.achievement.reward}

@@ -1,6 +1,6 @@
-import prisma from "@/src/libs/db";
-import { getAuthSession } from "@/src/libs/oAuth";
-import { ApiResponse } from "@/src/utils/apiResponse";
+import prisma from "@/libs/db";
+import { getAuthSession } from "@/libs/oAuth";
+import { ApiResponse } from "@/utils/apiResponse";
 
 export async function GET() {
   const session = await getAuthSession();

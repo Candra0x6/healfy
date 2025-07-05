@@ -1,10 +1,10 @@
-import { errorHandler } from "@/middleware";
-import { sanitizeHealthAnalysis } from "@/src/hooks/useSanitize";
-import prisma from "@/src/libs/db";
-import { model } from "@/src/libs/genAI";
-import { getAuthSession } from "@/src/libs/oAuth";
-import { MedicalData } from "@/src/types/medicalBiometrics";
-import { ApiResponse } from "@/src/utils/apiResponse";
+import { errorHandler } from "../../../../middleware";
+import { sanitizeHealthAnalysis } from "@/hooks/useSanitize";
+import prisma from "@/libs/db";
+import { model } from "@/libs/genAI";
+import { getAuthSession } from "@/libs/oAuth";
+import { MedicalData } from "@/types/medicalBiometrics";
+import { ApiResponse } from "@/utils/apiResponse";
 import { ConditionType } from "@prisma/client";
 import { ApiError } from "next/dist/server/api-utils";
 
@@ -274,7 +274,6 @@ export async function POST(request: Request): Promise<Response> {
                     }
                   ),
                 },
-                // typo fix later 😂
                 healthSummery: {
                   create: {
                     followUpRecommendations:
