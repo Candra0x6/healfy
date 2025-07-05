@@ -14,11 +14,6 @@ const dashboardMenuItems = [
     text: "Leaderboard",
     path: "/dashboard/leaderboard",
   },
-  {
-    icon: RiHealthBookFill,
-    text: "Biometrics",
-    path: "/dashboard/my-biometrics",
-  },
 ];
 const NavbarDashboardMobile: React.FunctionComponent = () => {
   const pathname = usePathname();
