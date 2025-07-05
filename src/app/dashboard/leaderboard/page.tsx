@@ -7,7 +7,7 @@ import PlayerProfile from "@/components/character/PlayerProfile";
 export type Leaderboard = User & {
   Character: (Character & { level: Level | null }) | null;
 };
-const getLeaderboardItems = cache(() => leaderboardDetails());
+const getLeaderboardItems = (() => leaderboardDetails());
 export default async function LeaderboardPage() {
   const leaderBoard: Leaderboard[] | undefined = await getLeaderboardItems();
   console.log(leaderBoard);
